@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PRIORITY_FILTERS } from '../data/models';
 import { SettingsService } from '../data/settings.service';
-import { HasUnsavedChanges } from './unsaved-changes.guard';
+import { HasUnsavedChanges } from '../shared/unsaved-changes.guard';
 
 @Component({
   selector: 'app-settings',

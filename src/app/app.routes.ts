@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { NotFound } from './not-found/not-found';
-import { unsavedChangesGuard } from './settings/unsaved-changes.guard';
+import { unsavedChangesGuard } from './shared/unsaved-changes.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'boards', pathMatch: 'full' },
