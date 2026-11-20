@@ -1,0 +1,32 @@
+<section class="page">
+  <header class="page-header">
+    <h1 class="page-title">All boards</h1>
+    <p class="page-subtitle">Choose a board to see its tasks.</p>
+  </header>
+
+  <ul class="board-grid">
+    @for (board of boards; track board.id) {
+      <li>
+        <a class="board-card" [routerLink]="['/boards', board.id]">
+          <h2 class="board-name">{{ board.name }}</h2>
+          <p class="board-count">{{ board.taskCount }} tasks</p>
+
+          <ul class="status-list">
+            @for (item of board.statusCounts; track item.status) {
+              <li class="status-item">
+                <span class="status-dot status-{{ item.status }}"></span>
+                {{ item.label }}
+                <strong class="status-count">{{ item.count }}</strong>
+              </li>
+            }
+          </ul>
+
+          <div class="progress" aria-hidden="true">
+            <div class="progress-fill" [style.width.%]="board.percentDone"></div>
+          </div>
+          <p class="progress-label">{{ board.percentDone }}% done</p>
+        </a>
+      </li>
+    }
+  </ul>
+</section>
