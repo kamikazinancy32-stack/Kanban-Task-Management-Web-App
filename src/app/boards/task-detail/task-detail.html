@@ -1,0 +1,60 @@
+<div class="backdrop" (click)="close()"></div>
+
+<section class="dialog" role="dialog" aria-modal="true" aria-labelledby="task-dialog-title">
+  <header class="dialog-header">
+    <h2 class="dialog-title" id="task-dialog-title">{{ task()?.title ?? 'Task not found' }}</h2>
+    <button type="button" class="close-button" aria-label="Close task details" (click)="close()">
+      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m1 1 12 12M13 1 1 13" />
+      </svg>
+    </button>
+  </header>
+
+  @if (task(); as task) {
+    <p class="description">{{ task.description }}</p>
+
+    <div>
+      <h3 class="section-label">
+        Subtasks ({{ countCompletedSubtasks(task) }} of {{ task.subtasks.length }})
+      </h3>
+      <ul class="subtasks">
+        @for (subtask of task.subtasks; track subtask.title) {
+          <li class="subtask" [class.completed]="subtask.isCompleted">
+            <span class="check" aria-hidden="true">
+              @if (subtask.isCompleted) {
+                <svg width="10" height="8" viewBox="0 0 10 8">
+                  <path fill="none" stroke="currentColor" stroke-width="2" d="m1.3 3.7 2.4 2.4L8.8 1" />
+                </svg>
+              }
+            </span>
+            <span class="subtask-title">{{ subtask.title }}</span>
+            @if (subtask.isCompleted) {
+              <span class="visually-hidden">(completed)</span>
+            }
+          </li>
+        }
+      </ul>
+    </div>
+
+    <dl class="details">
+      <div>
+        <dt class="section-label">Status</dt>
+        <dd class="detail-value">
+          <span class="status-dot status-{{ task.status }}"></span>
+          {{ getStatusLabel(task.status) }}
+        </dd>
+      </div>
+      <div>
+        <dt class="section-label">Priority</dt>
+        <dd class="detail-value">
+          <span class="priority priority-{{ task.priority }}">{{ task.priority }}</span>
+        </dd>
+      </div>
+    </dl>
+  } @else {
+    <p class="description">
+      This board has no task with that ID. It may have been removed, or the link might be wrong.
+    </p>
+    <button type="button" class="button" (click)="close()">Back to board</button>
+  }
+</section>
