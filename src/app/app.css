@@ -1,0 +1,37 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  min-width: 0; /* lets the board columns scroll sideways instead of stretching the page */
+  display: flex;
+  flex-direction: column;
+}
+
+.show-sidebar {
+  position: fixed;
+  left: 0;
+  bottom: 32px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  padding: 19px 22px 19px 18px;
+  border: none;
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  background: var(--color-primary);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.show-sidebar:hover {
+  background: var(--color-primary-hover);
+}
+
+@media (max-width: 767px) {
+  .layout {
+    flex-direction: column;
+  }
+}

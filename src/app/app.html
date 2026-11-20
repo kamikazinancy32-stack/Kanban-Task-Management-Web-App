@@ -1,0 +1,25 @@
+<div class="layout">
+  @if (!sidebarHidden()) {
+    <app-sidebar (hide)="sidebarHidden.set(true)" />
+  }
+
+  <main class="content">
+    <router-outlet />
+  </main>
+
+  @if (sidebarHidden()) {
+    <button
+      type="button"
+      class="show-sidebar"
+      aria-label="Show sidebar"
+      (click)="sidebarHidden.set(false)"
+    >
+      <svg width="16" height="11" viewBox="0 0 16 11" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M8 0C4.4 0 1.4 2.3 0 5.5 1.4 8.7 4.4 11 8 11s6.6-2.3 8-5.5C14.6 2.3 11.6 0 8 0Zm0 9.2a3.7 3.7 0 1 1 0-7.4 3.7 3.7 0 0 1 0 7.4Zm0-5.6a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8Z"
+        />
+      </svg>
+    </button>
+  }
+</div>
