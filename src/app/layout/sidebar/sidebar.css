@@ -1,0 +1,165 @@
+:host {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 100vh;
+  flex-shrink: 0;
+  padding: 32px 24px 32px 0;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 54px;
+  padding-left: 32px;
+  text-decoration: none;
+}
+
+.logo-bars {
+  display: flex;
+  gap: 3px;
+}
+
+.logo-bars span {
+  width: 6px;
+  height: 25px;
+  border-radius: 2px;
+  background: var(--color-primary);
+}
+
+.logo-bars span:nth-child(2) {
+  opacity: 0.75;
+}
+
+.logo-bars span:nth-child(3) {
+  opacity: 0.5;
+}
+
+.logo-text {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.section-title {
+  margin-bottom: 19px;
+  padding-left: 32px;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+.nav {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.nav-link,
+.hide-button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 32px;
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.nav-link:hover,
+.hide-button:hover {
+  background: var(--color-text);
+  color: var(--color-primary);
+}
+
+.nav-link.active {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* Pushes the Settings link to the bottom of the navigation. */
+.nav-link-settings {
+  margin-top: auto;
+}
+
+.hide-button {
+  width: 100%;
+  margin-top: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* Tablet: slightly narrower sidebar */
+@media (max-width: 1023px) {
+  :host {
+    width: 260px;
+  }
+
+  .logo,
+  .section-title {
+    padding-left: 24px;
+  }
+
+  .nav-link,
+  .hide-button {
+    padding-left: 24px;
+  }
+}
+
+/* Mobile: the sidebar becomes a top bar with a scrollable row of links */
+@media (max-width: 767px) {
+  :host {
+    position: static;
+    width: 100%;
+    height: auto;
+    padding: 16px 0 0;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .logo {
+    margin-bottom: 12px;
+    padding-left: 16px;
+  }
+
+  .logo-text {
+    font-size: 1.5rem;
+  }
+
+  .section-title,
+  .hide-button {
+    display: none;
+  }
+
+  .nav {
+    flex-direction: row;
+    gap: 8px;
+    padding: 0 16px 12px;
+    overflow-x: auto;
+  }
+
+  .nav-link {
+    flex-shrink: 0;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    font-size: 0.8125rem;
+  }
+
+  .nav-link-settings {
+    margin-top: 0;
+  }
+}

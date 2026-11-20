@@ -1,0 +1,64 @@
+<a class="logo" routerLink="/boards" aria-label="Kanban home">
+  <span class="logo-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+  <span class="logo-text">kanban</span>
+</a>
+
+<p class="section-title">All boards ({{ boards.length }})</p>
+
+<nav class="nav" aria-label="Main navigation">
+  <!-- exact: true, otherwise this link would also be active on /boards/roadmap -->
+  <a
+    class="nav-link"
+    routerLink="/boards"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    ariaCurrentWhenActive="page"
+  >
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path fill="currentColor" d="M1 1h6v6H1V1Zm8 0h6v6H9V1ZM1 9h6v6H1V9Zm8 0h6v6H9V9Z" />
+    </svg>
+    Overview
+  </a>
+
+  @for (board of boards; track board.id) {
+    <a
+      class="nav-link"
+      [routerLink]="['/boards', board.id]"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M2 1h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Zm1 2v10h3V3H3Zm5 0v6h5V3H8Z"
+        />
+      </svg>
+      {{ board.name }}
+    </a>
+  }
+
+  <a
+    class="nav-link nav-link-settings"
+    routerLink="/settings"
+    routerLinkActive="active"
+    ariaCurrentWhenActive="page"
+  >
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M1 3.25h8.1a2.25 2.25 0 0 1 4.3 0H15v1.5h-1.6a2.25 2.25 0 0 1-4.3 0H1v-1.5Zm0 8h1.6a2.25 2.25 0 0 1 4.3 0H15v1.5H6.9a2.25 2.25 0 0 1-4.3 0H1v-1.5Z"
+      />
+    </svg>
+    Settings
+  </a>
+</nav>
+
+<button type="button" class="hide-button" (click)="hide.emit()">
+  <svg width="18" height="16" viewBox="0 0 18 16" aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M2.3 1 1 2.3l2.4 2.4A9.6 9.6 0 0 0 0 8.5c1.4 3.2 4.6 5.5 8.5 5.5 1.3 0 2.5-.3 3.7-.7L14.7 16l1.3-1.3L2.3 1Zm6.2 10.7a3.2 3.2 0 0 1-2.9-4.6l1.2 1.2a1.6 1.6 0 0 0 2.1 2.1l1.2 1.2c-.5.1-1 .1-1.6.1ZM8.5 3c3.9 0 7.1 2.3 8.5 5.5-.5 1.2-1.3 2.3-2.3 3.1l-2.1-2.1a3.2 3.2 0 0 0-4-4L7 4.1c.5-.1 1-.1 1.5-.1Z"
+    />
+  </svg>
+  Hide Sidebar
+</button>
