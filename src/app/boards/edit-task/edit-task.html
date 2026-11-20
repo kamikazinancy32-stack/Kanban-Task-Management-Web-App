@@ -1,0 +1,119 @@
+<div class="modal-backdrop" (click)="cancel()"></div>
+
+<section class="modal" role="dialog" aria-modal="true" aria-labelledby="edit-task-heading">
+  <header class="modal-header">
+    <h2 class="modal-title" id="edit-task-heading">Edit task</h2>
+    <button type="button" class="modal-close" aria-label="Close" (click)="cancel()">
+      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m1 1 12 12M13 1 1 13" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- Reactive form: [formGroup] connects this template to the FormGroup built in edit-task.ts. -->
+  <form class="task-form" [formGroup]="form" (ngSubmit)="save()" novalidate>
+    <div class="form-field">
+      <label class="form-label" for="edit-title">Title</label>
+      <input
+        id="edit-title"
+        type="text"
+        class="form-control"
+        autocomplete="off"
+        formControlName="title"
+        [class.is-invalid]="showError(form.controls.title)"
+        [attr.aria-invalid]="showError(form.controls.title)"
+        [attr.aria-describedby]="showError(form.controls.title) ? 'edit-title-error' : null"
+      />
+      @if (showError(form.controls.title)) {
+        <p class="form-error" id="edit-title-error">
+          {{ getErrorMessage(form.controls.title.errors) }}
+        </p>
+      }
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="edit-description">
+        Description <span class="form-optional">(optional)</span>
+      </label>
+      <textarea
+        id="edit-description"
+        class="form-control"
+        formControlName="description"
+        [class.is-invalid]="showError(form.controls.description)"
+        [attr.aria-invalid]="showError(form.controls.description)"
+        [attr.aria-describedby]="showError(form.controls.description) ? 'edit-description-error' : null"
+      ></textarea>
+      @if (showError(form.controls.description)) {
+        <p class="form-error" id="edit-description-error">
+          {{ getErrorMessage(form.controls.description.errors) }}
+        </p>
+      }
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label class="form-label" for="edit-status">Status</label>
+        <select
+          id="edit-status"
+          class="select"
+          formControlName="status"
+          [class.is-invalid]="showError(form.controls.status)"
+          [attr.aria-invalid]="showError(form.controls.status)"
+        >
+          @for (option of statusOptions; track option.status) {
+            <option [value]="option.status">{{ option.label }}</option>
+          }
+        </select>
+        @if (showError(form.controls.status)) {
+          <p class="form-error">{{ getErrorMessage(form.controls.status.errors) }}</p>
+        }
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="edit-priority">Priority</label>
+        <select id="edit-priority" class="select" formControlName="priority">
+          @for (option of priorityOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="edit-due-date">
+        Due date <span class="form-optional">(optional)</span>
+      </label>
+      <input
+        id="edit-due-date"
+        type="date"
+        class="form-control"
+        formControlName="dueDate"
+        [class.is-invalid]="showError(form.controls.dueDate)"
+        [attr.aria-invalid]="showError(form.controls.dueDate)"
+        [attr.aria-describedby]="showError(form.controls.dueDate) ? 'edit-due-date-error' : null"
+      />
+      @if (showError(form.controls.dueDate)) {
+        <p class="form-error" id="edit-due-date-error">
+          {{ getErrorMessage(form.controls.dueDate.errors) }}
+        </p>
+      }
+    </div>
+
+    @if (submitError()) {
+      <p class="form-alert" role="alert">{{ submitError() }}</p>
+    }
+
+    <div class="form-actions">
+      <button type="button" class="button button-secondary" (click)="cancel()">Cancel</button>
+      <button
+        type="button"
+        class="button button-secondary"
+        [disabled]="form.pristine"
+        (click)="discardChanges()"
+      >
+        Discard changes
+      </button>
+      <button type="submit" class="button">Save changes</button>
+    </div>
+  </form>
+</section>
