@@ -1,0 +1,59 @@
+:host {
+  display: flex;
+  flex: 1;
+}
+
+.not-found {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+/* The logo's three bars, with the last one "fallen over" */
+.illustration {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 90px;
+  margin-bottom: 24px;
+}
+
+.bar {
+  width: 18px;
+  height: 90px;
+  border-radius: 4px;
+  background: var(--color-primary);
+}
+
+.bar:nth-child(2) {
+  opacity: 0.75;
+}
+
+.bar-fallen {
+  opacity: 0.5;
+  transform: translate(24px, 36px) rotate(90deg);
+}
+
+.code {
+  color: var(--color-primary);
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.title {
+  margin-top: 16px;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.message {
+  max-width: 420px;
+  margin: 12px 0 32px;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
