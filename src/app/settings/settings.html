@@ -1,0 +1,42 @@
+<section class="page">
+  <header class="page-header">
+    <h1 class="page-title">Settings</h1>
+    <p class="page-subtitle">Choose how your boards are displayed.</p>
+  </header>
+
+  <form class="settings-card" (ngSubmit)="save()">
+    <label class="field-label" for="default-priority">Default priority filter</label>
+    <p class="field-help" id="default-priority-help">
+      Used when you open a board without a priority in the URL. A
+      <code>?priority=</code> query parameter always takes precedence.
+    </p>
+
+    <select
+      id="default-priority"
+      name="defaultPriority"
+      class="select"
+      aria-describedby="default-priority-help"
+      [(ngModel)]="selectedPriority"
+    >
+      @for (option of priorityOptions; track option.value) {
+        <option [value]="option.value">{{ option.label }}</option>
+      }
+    </select>
+
+    <div class="actions">
+      <button type="submit" class="button" [disabled]="!hasUnsavedChanges()">Save changes</button>
+      <button
+        type="button"
+        class="button button-secondary"
+        [disabled]="!hasUnsavedChanges()"
+        (click)="discardChanges()"
+      >
+        Discard
+      </button>
+    </div>
+
+    <p class="save-status" role="status" [class.unsaved]="hasUnsavedChanges()">
+      {{ hasUnsavedChanges() ? 'You have unsaved changes.' : 'All changes saved.' }}
+    </p>
+  </form>
+</section>

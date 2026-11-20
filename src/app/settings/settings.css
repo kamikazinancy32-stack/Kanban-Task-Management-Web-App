@@ -1,0 +1,44 @@
+.settings-card {
+  max-width: 480px;
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.field-label {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.field-help {
+  margin: 4px 0 16px;
+  color: var(--color-text-muted);
+}
+
+.field-help code {
+  color: var(--color-primary-hover);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.save-status {
+  margin-top: 16px;
+  color: var(--color-done);
+  font-weight: 700;
+}
+
+.save-status.unsaved {
+  color: var(--color-medium);
+}
+
+@media (max-width: 480px) {
+  .settings-card {
+    padding: 24px;
+  }
+}
