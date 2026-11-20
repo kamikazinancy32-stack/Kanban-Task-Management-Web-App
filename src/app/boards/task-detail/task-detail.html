@@ -1,9 +1,9 @@
-<div class="backdrop" (click)="close()"></div>
+<div class="modal-backdrop" (click)="close()"></div>
 
-<section class="dialog" role="dialog" aria-modal="true" aria-labelledby="task-dialog-title">
-  <header class="dialog-header">
-    <h2 class="dialog-title" id="task-dialog-title">{{ task()?.title ?? 'Task not found' }}</h2>
-    <button type="button" class="close-button" aria-label="Close task details" (click)="close()">
+<section class="modal" role="dialog" aria-modal="true" aria-labelledby="task-dialog-title">
+  <header class="modal-header">
+    <h2 class="modal-title" id="task-dialog-title">{{ task()?.title ?? 'Task not found' }}</h2>
+    <button type="button" class="modal-close" aria-label="Close task details" (click)="close()">
       <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
         <path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m1 1 12 12M13 1 1 13" />
       </svg>
@@ -11,30 +11,34 @@
   </header>
 
   @if (task(); as task) {
-    <p class="description">{{ task.description }}</p>
+    @if (task.description) {
+      <p class="description">{{ task.description }}</p>
+    }
 
-    <div>
-      <h3 class="section-label">
-        Subtasks ({{ countCompletedSubtasks(task) }} of {{ task.subtasks.length }})
-      </h3>
-      <ul class="subtasks">
-        @for (subtask of task.subtasks; track subtask.title) {
-          <li class="subtask" [class.completed]="subtask.isCompleted">
-            <span class="check" aria-hidden="true">
+    @if (task.subtasks.length > 0) {
+      <div>
+        <h3 class="section-label">
+          Subtasks ({{ countCompletedSubtasks(task) }} of {{ task.subtasks.length }})
+        </h3>
+        <ul class="subtasks">
+          @for (subtask of task.subtasks; track subtask.title) {
+            <li class="subtask" [class.completed]="subtask.isCompleted">
+              <span class="check" aria-hidden="true">
+                @if (subtask.isCompleted) {
+                  <svg width="10" height="8" viewBox="0 0 10 8">
+                    <path fill="none" stroke="currentColor" stroke-width="2" d="m1.3 3.7 2.4 2.4L8.8 1" />
+                  </svg>
+                }
+              </span>
+              <span class="subtask-title">{{ subtask.title }}</span>
               @if (subtask.isCompleted) {
-                <svg width="10" height="8" viewBox="0 0 10 8">
-                  <path fill="none" stroke="currentColor" stroke-width="2" d="m1.3 3.7 2.4 2.4L8.8 1" />
-                </svg>
+                <span class="visually-hidden">(completed)</span>
               }
-            </span>
-            <span class="subtask-title">{{ subtask.title }}</span>
-            @if (subtask.isCompleted) {
-              <span class="visually-hidden">(completed)</span>
-            }
-          </li>
-        }
-      </ul>
-    </div>
+            </li>
+          }
+        </ul>
+      </div>
+    }
 
     <dl class="details">
       <div>
@@ -50,7 +54,14 @@
           <span class="priority priority-{{ task.priority }}">{{ task.priority }}</span>
         </dd>
       </div>
+      <div>
+        <dt class="section-label">Due date</dt>
+        <dd class="detail-value">{{ task.dueDate ? (task.dueDate | date: 'mediumDate') : 'None' }}</dd>
+      </div>
     </dl>
+
+    <!-- Relative link: from tasks/:taskId it opens tasks/:taskId/edit -->
+    <a class="button edit-link" routerLink="edit" queryParamsHandling="preserve">Edit task</a>
   } @else {
     <p class="description">
       This board has no task with that ID. It may have been removed, or the link might be wrong.

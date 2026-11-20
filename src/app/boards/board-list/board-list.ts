@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BoardService } from '../../data/board.service';
 import { Board, TASK_STATUSES } from '../../data/models';
@@ -12,7 +12,10 @@ import { Board, TASK_STATUSES } from '../../data/models';
 export class BoardList {
   private readonly boardService = inject(BoardService);
 
-  protected readonly boards = this.boardService.getBoards().map((board) => this.summarize(board));
+  /** Recomputed whenever the boards change (for example, after a task is added). */
+  protected readonly boards = computed(() =>
+    this.boardService.getBoards().map((board) => this.summarize(board)),
+  );
 
   /** Prepares the numbers shown on each board card. */
   private summarize(board: Board) {

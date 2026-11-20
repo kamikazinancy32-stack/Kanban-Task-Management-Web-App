@@ -2,19 +2,32 @@
   <header class="board-header">
     <h1 class="board-title">{{ board.name }}</h1>
 
-    <label class="filter">
-      <span class="filter-label">Priority</span>
-      <select
-        class="select"
-        aria-label="Filter tasks by priority"
-        [ngModel]="activePriority()"
-        (ngModelChange)="onPriorityChange($event)"
+    <div class="header-actions">
+      <label class="filter">
+        <span class="filter-label">Priority</span>
+        <select
+          class="select"
+          aria-label="Filter tasks by priority"
+          [ngModel]="activePriority()"
+          (ngModelChange)="onPriorityChange($event)"
+        >
+          @for (option of priorityOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+      </label>
+
+      <!-- Relative link: opens /boards/:boardId/tasks/new -->
+      <a
+        class="button add-task-button"
+        routerLink="tasks/new"
+        queryParamsHandling="preserve"
+        aria-label="Add new task"
       >
-        @for (option of priorityOptions; track option.value) {
-          <option [value]="option.value">{{ option.label }}</option>
-        }
-      </select>
-    </label>
+        <span aria-hidden="true">+</span>
+        <span class="add-task-text">Add New Task</span>
+      </a>
+    </div>
   </header>
 
   <div class="columns">
@@ -30,7 +43,13 @@
           <a class="task-card" [routerLink]="['tasks', task.id]" queryParamsHandling="preserve">
             <h3 class="task-title">{{ task.title }}</h3>
             <p class="task-meta">
-              <span>{{ countCompletedSubtasks(task) }} of {{ task.subtasks.length }} subtasks</span>
+              <span>
+                @if (task.subtasks.length > 0) {
+                  {{ countCompletedSubtasks(task) }} of {{ task.subtasks.length }} subtasks
+                } @else {
+                  No subtasks
+                }
+              </span>
               <span class="priority priority-{{ task.priority }}">{{ task.priority }}</span>
             </p>
           </a>

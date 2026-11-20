@@ -86,7 +86,7 @@ describe('App routes', () => {
   it('closes the task modal by navigating back to the board, keeping the query parameters', async () => {
     await harness.navigateByUrl('/boards/platform-launch/tasks/4?priority=high');
 
-    const closeButton = harness.routeNativeElement?.querySelector<HTMLButtonElement>('.close-button');
+    const closeButton = harness.routeNativeElement?.querySelector<HTMLButtonElement>('.modal-close');
     closeButton?.click();
     await harness.fixture.whenStable();
 

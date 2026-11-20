@@ -1,12 +1,14 @@
+import { DatePipe } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 import { BoardService } from '../../data/board.service';
 import { countCompletedSubtasks, getStatusLabel } from '../../data/models';
 
 @Component({
   selector: 'app-task-detail',
+  imports: [DatePipe, RouterLink],
   templateUrl: './task-detail.html',
   styleUrl: './task-detail.css',
   host: {
