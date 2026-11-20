@@ -1,0 +1,128 @@
+<div class="modal-backdrop" (click)="cancel()"></div>
+
+<section class="modal" role="dialog" aria-modal="true" aria-labelledby="add-task-heading">
+  <header class="modal-header">
+    <h2 class="modal-title" id="add-task-heading">Add new task</h2>
+    <button type="button" class="modal-close" aria-label="Close" (click)="cancel()">
+      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m1 1 12 12M13 1 1 13" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- Template-driven form: #taskForm="ngForm" gives access to the whole form's state. -->
+  <form class="task-form" #taskForm="ngForm" (ngSubmit)="save(taskForm)" novalidate>
+    <div class="form-field">
+      <label class="form-label" for="task-title">Title</label>
+      <input
+        id="task-title"
+        name="title"
+        type="text"
+        class="form-control"
+        autocomplete="off"
+        placeholder="e.g. Write the release notes"
+        [(ngModel)]="task.title"
+        #title="ngModel"
+        required
+        [minlength]="titleMinLength"
+        [maxlength]="titleMaxLength"
+        [pattern]="notBlankPattern"
+        [appUniqueTitle]="boardId"
+        [class.is-invalid]="showError(title, taskForm)"
+        [attr.aria-invalid]="showError(title, taskForm)"
+        [attr.aria-describedby]="showError(title, taskForm) ? 'task-title-error' : null"
+      />
+      @if (showError(title, taskForm)) {
+        <p class="form-error" id="task-title-error">{{ getErrorMessage(title.errors) }}</p>
+      }
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="task-description">
+        Description <span class="form-optional">(optional)</span>
+      </label>
+      <textarea
+        id="task-description"
+        name="description"
+        class="form-control"
+        placeholder="e.g. Summarize the changes in this release for our users."
+        [(ngModel)]="task.description"
+        #description="ngModel"
+        [maxlength]="descriptionMaxLength"
+        [class.is-invalid]="showError(description, taskForm)"
+        [attr.aria-invalid]="showError(description, taskForm)"
+        [attr.aria-describedby]="showError(description, taskForm) ? 'task-description-error' : null"
+      ></textarea>
+      @if (showError(description, taskForm)) {
+        <p class="form-error" id="task-description-error">
+          {{ getErrorMessage(description.errors) }}
+        </p>
+      }
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label class="form-label" for="task-status">Status</label>
+        <select
+          id="task-status"
+          name="status"
+          class="select"
+          [(ngModel)]="task.status"
+          #status="ngModel"
+          required
+          [class.is-invalid]="showError(status, taskForm)"
+          [attr.aria-invalid]="showError(status, taskForm)"
+          [attr.aria-describedby]="showError(status, taskForm) ? 'task-status-error' : null"
+        >
+          <option value="" disabled>Choose a status</option>
+          @for (option of statusOptions; track option.status) {
+            <option [value]="option.status">{{ option.label }}</option>
+          }
+        </select>
+        @if (showError(status, taskForm)) {
+          <p class="form-error" id="task-status-error">{{ getErrorMessage(status.errors) }}</p>
+        }
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="task-priority">Priority</label>
+        <select id="task-priority" name="priority" class="select" [(ngModel)]="task.priority" required>
+          @for (option of priorityOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="task-due-date">
+        Due date <span class="form-optional">(optional)</span>
+      </label>
+      <input
+        id="task-due-date"
+        name="dueDate"
+        type="date"
+        class="form-control"
+        [min]="today"
+        [(ngModel)]="task.dueDate"
+        #dueDate="ngModel"
+        appNotInPast
+        [class.is-invalid]="showError(dueDate, taskForm)"
+        [attr.aria-invalid]="showError(dueDate, taskForm)"
+        [attr.aria-describedby]="showError(dueDate, taskForm) ? 'task-due-date-error' : null"
+      />
+      @if (showError(dueDate, taskForm)) {
+        <p class="form-error" id="task-due-date-error">{{ getErrorMessage(dueDate.errors) }}</p>
+      }
+    </div>
+
+    @if (submitError()) {
+      <p class="form-alert" role="alert">{{ submitError() }}</p>
+    }
+
+    <div class="form-actions">
+      <button type="button" class="button button-secondary" (click)="cancel()">Cancel</button>
+      <button type="submit" class="button">Create task</button>
+    </div>
+  </form>
+</section>
