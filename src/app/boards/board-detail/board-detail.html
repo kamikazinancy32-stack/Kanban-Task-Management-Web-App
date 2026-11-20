@@ -1,0 +1,46 @@
+@if (board(); as board) {
+  <header class="board-header">
+    <h1 class="board-title">{{ board.name }}</h1>
+
+    <label class="filter">
+      <span class="filter-label">Priority</span>
+      <select
+        class="select"
+        aria-label="Filter tasks by priority"
+        [ngModel]="activePriority()"
+        (ngModelChange)="onPriorityChange($event)"
+      >
+        @for (option of priorityOptions; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </label>
+  </header>
+
+  <div class="columns">
+    @for (column of columns(); track column.status) {
+      <section class="column" [attr.aria-label]="column.label + ' column'">
+        <h2 class="column-title">
+          <span class="status-dot status-{{ column.status }}"></span>
+          {{ column.label }} ({{ column.tasks.length }})
+        </h2>
+
+        @for (task of column.tasks; track task.id) {
+          <!-- Relative link: from /boards/:boardId it opens /boards/:boardId/tasks/:taskId -->
+          <a class="task-card" [routerLink]="['tasks', task.id]" queryParamsHandling="preserve">
+            <h3 class="task-title">{{ task.title }}</h3>
+            <p class="task-meta">
+              <span>{{ countCompletedSubtasks(task) }} of {{ task.subtasks.length }} subtasks</span>
+              <span class="priority priority-{{ task.priority }}">{{ task.priority }}</span>
+            </p>
+          </a>
+        } @empty {
+          <p class="column-empty">No tasks</p>
+        }
+      </section>
+    }
+  </div>
+}
+
+<!-- Child route outlet: the task details modal (tasks/:taskId) appears here. -->
+<router-outlet />
