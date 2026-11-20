@@ -29,7 +29,7 @@ Routing is the focus of this project. The Kanban features are deliberately read-
 | 6 | Advanced routing | The boards section is a lazy-loaded feature area (`loadChildren`), Settings is lazy-loaded (`loadComponent`), and tasks are a nested child route rendered in the board's own `<router-outlet>` |
 | 7 | Route guards | `boardExistsGuard` (`CanActivate`) only opens boards that exist. `unsavedChangesGuard` (`CanDeactivate`) asks for confirmation before leaving Settings with unsaved changes |
 | 8 | Testing | Unit tests for routes, navigation, active links, route and query parameters, lazy loading, guards and the wildcard route |
-| 9 | Deployment | Prepared as a single-page app. Direct URLs need a fallback rule on the hosting platform (see [Deployment](#deployment)) |
+| 9 | Deployment | Deployed to GitHub Pages with a `404.html` fallback so direct URLs and refreshes on nested routes work (see [Deployment](#deployment)) |
 
 ## Routes
 
@@ -116,12 +116,18 @@ The tests use Angular's `RouterTestingHarness` with the real route configuration
 
 ## Deployment
 
-This is a single-page application: the server must return `index.html` for every URL, so that refreshing or opening a nested route such as `/boards/roadmap/tasks/1` works.
+**Live site:** https://kamikazinancy32-stack.github.io/Kanban-Task-Management-Web-App/
 
-- **Netlify:** add a `public/_redirects` file containing `/* /index.html 200`
-- **Vercel:** add a rewrite of all routes to `/index.html` in `vercel.json`
+The app is deployed to **GitHub Pages** by a GitHub Actions workflow ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) on every push to `main`. The workflow:
 
-Build command: `npm run build`. Output folder: `dist/kanban-task-management/browser`.
+1. installs dependencies and runs the unit tests
+2. builds the app with `--base-href "/Kanban-Task-Management-Web-App/"`, because the site is served from the repository's sub-path
+3. copies `index.html` to `404.html`
+4. publishes the build to GitHub Pages
+
+**Why `404.html`?** This is a single-page application: there is only one real HTML file, and Angular decides what to show from the URL. GitHub Pages has no rewrite rules, but it serves `404.html` for any path it doesn't recognize. Making that file a copy of `index.html` means direct visits and refreshes on nested routes such as `/boards/roadmap/tasks/1` still load the app.
+
+On Netlify or Vercel you would use a rewrite rule instead: a `_redirects` file containing `/* /index.html 200`, or a rewrite in `vercel.json`.
 
 ## Known limitations
 
