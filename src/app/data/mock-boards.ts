@@ -8,6 +8,7 @@ export const MOCK_BOARDS: Board[] = [
       {
         id: '1',
         title: 'Design the sign-up flow',
+        dueDate: '2027-01-15',
         description:
           'Create the screens a new user sees when creating an account, from the first form to the welcome message.',
         status: 'todo',
@@ -44,6 +45,7 @@ export const MOCK_BOARDS: Board[] = [
       {
         id: '4',
         title: 'Build the pricing page',
+        dueDate: '2026-12-10',
         description:
           'Show our plans side by side so visitors can compare features and choose the right one.',
         status: 'doing',
@@ -69,6 +71,7 @@ export const MOCK_BOARDS: Board[] = [
       {
         id: '6',
         title: 'Run an accessibility audit',
+        dueDate: '2026-12-18',
         description:
           'Check the main pages against accessibility guidelines and fix the most important issues.',
         status: 'doing',
@@ -82,6 +85,7 @@ export const MOCK_BOARDS: Board[] = [
       {
         id: '7',
         title: 'Configure production hosting',
+        dueDate: '2026-10-30',
         description: 'Set up the hosting environment and a custom domain for the live site.',
         status: 'done',
         priority: 'high',
@@ -133,6 +137,7 @@ export const MOCK_BOARDS: Board[] = [
       {
         id: '2',
         title: 'Plan the Q1 content calendar',
+        dueDate: '2027-01-05',
         description: 'Decide which articles, videos and newsletters we publish each week next quarter.',
         status: 'todo',
         priority: 'high',
@@ -206,6 +211,7 @@ export const MOCK_BOARDS: Board[] = [
       {
         id: '3',
         title: 'Prototype mobile app navigation',
+        dueDate: '2027-02-01',
         description: 'Test two navigation layouts for the mobile app with a clickable prototype.',
         status: 'doing',
         priority: 'medium',

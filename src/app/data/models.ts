@@ -17,6 +17,18 @@ export interface Task {
   status: TaskStatus;
   priority: Priority;
   subtasks: Subtask[];
+  /** Optional due date in yyyy-mm-dd format, the format used by <input type="date">. */
+  dueDate?: string;
+}
+
+/** The values the Add Task and Edit Task forms produce. */
+export interface TaskFormValue {
+  title: string;
+  description: string;
+  status: TaskStatus;
+  priority: Priority;
+  /** Empty string when no due date is chosen. */
+  dueDate: string;
 }
 
 export interface Board {
@@ -32,11 +44,15 @@ export const TASK_STATUSES: { status: TaskStatus; label: string }[] = [
   { status: 'done', label: 'Done' },
 ];
 
-export const PRIORITY_FILTERS: { value: PriorityFilter; label: string }[] = [
-  { value: 'all', label: 'All priorities' },
+export const PRIORITY_OPTIONS: { value: Priority; label: string }[] = [
   { value: 'high', label: 'High' },
   { value: 'medium', label: 'Medium' },
   { value: 'low', label: 'Low' },
+];
+
+export const PRIORITY_FILTERS: { value: PriorityFilter; label: string }[] = [
+  { value: 'all', label: 'All priorities' },
+  ...PRIORITY_OPTIONS,
 ];
 
 /** Checks that a value (for example, from a query parameter) is a valid priority filter. */
